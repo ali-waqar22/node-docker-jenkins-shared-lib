@@ -1,14 +1,13 @@
-FROM node:13-alpine
-
-RUN mkdir -p /usr/app
-COPY app/images/* /usr/app/images/
-COPY app/index.html /usr/app/
-COPY app/package.json /usr/app/
-COPY app/server*.js /usr/app/
+FROM node:26-alpine
 
 WORKDIR /usr/app
-EXPOSE 3000
+
+COPY package*.json .
 
 RUN npm install
+
+COPY . .
+
+EXPOSE 3000
 
 CMD ["node", "server.js"]
