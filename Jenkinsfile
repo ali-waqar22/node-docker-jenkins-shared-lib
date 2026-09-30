@@ -52,7 +52,7 @@ pipeline {
                         sh "git config user.email 'jenkins@example.com'"
                         sh "git config user.name 'jenkins'"
                         sh "git remote set-url origin https://${USERNAME}:${PASS}@github.com/ali-waqar22/node-docker-jenkins-shared-lib.git"
-                        sh "git add package.json"
+                        sh "git add app/package.json"
                         sh "git commit -m 'ci: version bump'"
                         sh "git push origin HEAD:master"
                     }
