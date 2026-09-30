@@ -6,14 +6,16 @@ pipeline {
         stage('Bump Version') {
             steps{
                 script {
-                    echo 'incrementing patch version...'
+                    dir('app') {
+                        echo 'incrementing patch version...'
 
-                    sh 'npm version patch'
-                   
-                    def packageJson = readJSON file: 'package.json'
-                    def version = packageJson.version
+                        sh 'npm version patch'
+                    
+                        def packageJson = readJSON file: 'package.json'
+                        def version = packageJson.version
 
-                    env.IMAGE_VERSION = "$version-$BUILD_NUMBER"
+                        env.IMAGE_VERSION = "$version-$BUILD_NUMBER"
+                    }
                 }
             }
         }
@@ -21,8 +23,11 @@ pipeline {
         stage('Run Tests') {
             steps{
                 script{
-                    sh 'npm install'
-                    sh 'npm run test'
+                    dir('app') {
+                        echo 'running tests...'
+                        sh 'npm install'
+                        sh 'npm run test'
+                    }
                 }
             }
         }
