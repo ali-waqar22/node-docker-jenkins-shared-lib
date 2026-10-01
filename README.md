@@ -13,6 +13,7 @@ This repository demonstrates a complete, enterprise-grade Continuous Integration
 
 ## 📂 Repository Structure
 
+```text
 ├── app/                        # Node.js application source code
 │   ├── package.json            # App dependencies and scripts
 │   ├── server.js               # Main application entry point
@@ -24,6 +25,7 @@ This repository demonstrates a complete, enterprise-grade Continuous Integration
 │   └── commitVersionUpdate.groovy # Script to commit and push to GitHub
 ├── Dockerfile                  # Container build instructions
 └── Jenkinsfile                 # Declarative pipeline calling the shared library
+```
 
 ## 🛠️ Prerequisites
 To run this pipeline in your own environment, you will need:
