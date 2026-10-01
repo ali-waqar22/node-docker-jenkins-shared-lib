@@ -30,39 +30,39 @@ This repository demonstrates a complete, enterprise-grade Continuous Integration
 ## 🛠️ Prerequisites
 To run this pipeline in your own environment, you will need:
 
-Jenkins Server: Hosted on a server (e.g., DigitalOcean droplet) running Docker.
+* **Jenkins Server**: Hosted on a server (e.g., DigitalOcean droplet) running Docker.
 
-Docker-out-of-Docker (DooD): Jenkins must be run with the host's Docker socket mounted (-v /var/run/docker.sock:/var/run/docker.sock) and Docker CLI installed inside the Jenkins container.
+* **Docker-out-of-Docker (DooD)**: Jenkins must be run with the host's Docker socket mounted (-v /var/run/docker.sock:/var/run/docker.sock) and Docker CLI installed inside the Jenkins container.
 
-Node.js: Installed inside the Jenkins container to execute npm commands.
+* **Node.js**: Installed inside the Jenkins container to execute npm commands.
 
-Credentials:
+* **Credentials**:
 
-github: A GitHub Personal Access Token (PAT) saved in Jenkins as a Username with Password.
+    * github: A GitHub Personal Access Token (PAT) saved in Jenkins as a Username with Password.
 
-Dockerhub: Docker Hub credentials saved in Jenkins as a Username with Password.
+    * Dockerhub: Docker Hub credentials saved in Jenkins as a Username with Password.
 
 ## ⚙️ Jenkins Configuration
 Before running the pipeline, configure this repository as a Global Shared Library in Jenkins:
 
-Navigate to Manage Jenkins > System > Global Pipeline Libraries.
+* Navigate to Manage Jenkins > System > Global Pipeline Libraries.
 
-Add a new library named my-shared-library.
+* Add a new library named my-shared-library.
 
-Set the default version to master.
+* Set the default version to master.
 
-Select Modern SCM > Git and provide the URL to this repository.
+* Select Modern SCM > Git and provide the URL to this repository.
 
 ## 🔄 Pipeline Stages
 The declarative Jenkinsfile executes the following parameterized stages via the Shared Library:
 
-Bump Version: Navigates into the app/ directory, runs npm version patch, and extracts the new version number.
+* **Bump Version**: Navigates into the app/ directory, runs npm version patch, and extracts the new version number.
 
-Run Tests: Installs npm dependencies and executes the Jest test suite.
+* **Run Tests**: Installs npm dependencies and executes the Jest test suite.
 
-Build and Push Docker Image: Builds the Docker image from the root directory using the bumped version and Jenkins build number as a tag, then pushes it to Docker Hub.
+* **Build and Push Docker Image**: Builds the Docker image from the root directory using the bumped version and Jenkins build number as a tag, then pushes it to Docker Hub.
 
-Commit Version Update: Stages the modified app/package.json, commits the version bump, and securely pushes the changes back to GitHub.
+* **Commit Version Update**: Stages the modified app/package.json, commits the version bump, and securely pushes the changes back to GitHub.
 
 ## 🚢 Manual Server Deployment
 Once the pipeline successfully pushes the image to Docker Hub, you can deploy it to your server using the following commands:
@@ -71,11 +71,11 @@ Once the pipeline successfully pushes the image to Docker Hub, you can deploy it
 ### Log in to Docker Hub (if pulling a private repository)
     docker login
 
-### Run the newly built image (replace <version> with the pipeline output tag)
+### Run the newly built image (replace `<version>` with the pipeline output tag)
     docker run -p 3000:3000 -d aliwaqarbulc/node-docker-jenkins-shared-lib:<version>
 
 ### Ensure the firewall allows traffic on port 3000
     ufw allow 3000/tcp
-Access the application by navigating to http://<your-server-ip>:3000 in your browser.
+Access the application by navigating to http://`<your-server-ip>`:3000 in your browser.
 
 ## Developed by Muhammad Ali Waqar.
